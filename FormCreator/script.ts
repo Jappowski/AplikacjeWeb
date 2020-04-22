@@ -109,4 +109,3 @@ class Form {
 }
 
 let app = new Form("1");
-app.render();
