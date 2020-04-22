@@ -76,4 +76,3 @@ var Form = (function () {
     return Form;
 })();
 var app = new Form("1");
-app.render();
