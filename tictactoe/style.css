@@ -39,20 +39,3 @@ th:not([pole]):hover
     cursor: pointer;
 }
 
-th[pole]:hover
-{
-    background-color: #f00;
-    cursor: not-allowed;
-}
-
-#plansza[ruch=x] th:not([pole]):hover::before,
-th[pole=x]::before
-{
-    content: "X";
-}
-
-#plansza[ruch=o] th:not([pole]):hover::before,
-th[pole=o]::before
-{
-    content: "o";
-}
