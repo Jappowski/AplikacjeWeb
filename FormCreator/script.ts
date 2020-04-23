@@ -15,85 +15,59 @@ interface Field{
     getValue(): any;
 }
 
-class app{
-    
-    createInput(name:string){
-        var para = document.createElement("p")
-        var node = document.createTextNode(name)
-        var inputnode = document.createElement("input")
-        para.appendChild(node)
-        para.appendChild(inputnode)
-        var element = document.getElementById("div1")
-        element.appendChild(para)
-        return para;
-        
-    }
-    createCheckbox(name:string){
-        var para = document.createElement("p")
-        var node = document.createTextNode(name)
-        var checknode = document.createElement("input")
-        checknode.type = "checkbox"
-        para.appendChild(node)
-        para.appendChild(checknode)
-        
-        var element = document.getElementById("div1")
-        element.appendChild(para)
-        return para;
-        
-    }
-}
-class InputField extends app implements Field{
+
+
+class InputField implements Field{
     name: string;
     label: string;
     type: FieldType;
     element: HTMLInputElement;
     value: any;
     constructor(name: string){
-        super();
         this.element = <HTMLInputElement>document.createElement('input');
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
         this.type = FieldType.textBox;
-        this.value= "";
+      
     }
     render(): HTMLElement {
-       return this.createInput(this.name);
+       return this.element;
     }
     getValue(): any{
      return this.element.value
         
     }
 }
-class TextArea extends app implements Field{
+class TextArea implements Field{
     name: string;
     label: string;
     type: FieldType;
     element: HTMLInputElement;
     value: any;
     constructor(name: string){
-        super();
-        this.element = <HTMLInputElement>document.createElement('input');
         this.name = name;
+        this.element =<HTMLInputElement>document.createElement('input');
+        
         this.label = "etykieta";
         this.element.name = this.name;
         this.type = FieldType.textArea;
     }
     render(): HTMLElement {
-       return this.createInput(this.name)
+       return this.element
     }
     getValue(): any{
-        return this.element.value
+        return this.element.name + ":" + " " + this.element.value
     }
 }
-class DateField extends app implements Field{
+class DateField implements Field{
     name: string;
     label: string;
     type: FieldType;
     element: HTMLInputElement;
     
     constructor(name: string){
-        super();
+
         this.element = <HTMLInputElement>document.createElement('date');
         this.name = name;
         this.label = "etykieta";
@@ -101,33 +75,33 @@ class DateField extends app implements Field{
         this.type = FieldType.date;
     }
     render():HTMLElement {
-        return this.createInput(this.name);
+        return this.element
     }
     getValue(): any{
         return this.element.value
     }
 }
 
-class CheckField extends app implements Field{
+class CheckField implements Field{
     name: string;
     label: string;
     type: FieldType;
     element: HTMLInputElement;
     
     constructor(name: string){
-        super();
-        this.element = <HTMLInputElement>document.createElement('checkbox');
+
+        this.element =<HTMLInputElement>document.createElement('checkbox');
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
         this.type = FieldType.checkbox;
     }
     render():HTMLElement {
-      return this.createCheckbox(this.name);
+      return this.element;
       
     }
     getValue(): any{
-        return this.element.value
+        return this.element.name + ":" + " " + this.element.value
     }
 }
 
@@ -141,27 +115,41 @@ class Form {
     }
     getValue(): void{
        this.fields.forEach(element => {
-            element.getValue();
+            console.log(element.getValue());
         });
        
     }
-    render() {
-          let inputField: InputField = new InputField("Imie");
-          inputField.render();
-          
-
-          let textArea: TextArea = new TextArea("Nazwisko");
-          textArea.render();
-         
-          
-          let dataArea: DateField = new DateField("Data");
-          dataArea.render();
-         
-          let checkArea: CheckField = new CheckField("Kromka")
-          checkArea.render();
-          
+    render(): void {
+          this.fields.forEach(element => {
+              this.formElement.appendChild(element.render())
+          })    
+    }
+    addNewField(field:Field): void{
+        this.fields.push(field)
+        
     }
 }
+class app{
+    form:Form;
+    constructor(form:Form){
+        this.form = form;
+    }
+    
+    createForm(): void{
+        this.form.render();
+    }
 
-let ap = new Form("1");
+    
+        
+}
+let f = new Form("p1");
+f.addNewField(new TextArea("Imię"));
 
+f.addNewField(new TextArea("Nazwisko"));
+
+f.addNewField(new CheckField("Oznajmiam, ze jestem pełnoletni"));
+let ap = new app(f);
+
+let showButton = document.getElementById("1");
+showButton.addEventListener('click',() => f.getValue(), false);
+ap.createForm();

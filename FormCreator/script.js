@@ -1,8 +1,3 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var FieldType;
 (function (FieldType) {
     FieldType[FieldType["textBox"] = 1] = "textBox";
@@ -12,73 +7,40 @@ var FieldType;
     FieldType[FieldType["radio"] = 5] = "radio";
     FieldType[FieldType["checkbox"] = 6] = "checkbox";
 })(FieldType || (FieldType = {}));
-var app = (function () {
-    function app() {
-    }
-    app.prototype.createInput = function (name) {
-        var para = document.createElement("p");
-        var node = document.createTextNode(name);
-        var inputnode = document.createElement("input");
-        para.appendChild(node);
-        para.appendChild(inputnode);
-        var element = document.getElementById("div1");
-        element.appendChild(para);
-        return para;
-    };
-    app.prototype.createCheckbox = function (name) {
-        var para = document.createElement("p");
-        var node = document.createTextNode(name);
-        var checknode = document.createElement("input");
-        checknode.type = "checkbox";
-        para.appendChild(node);
-        para.appendChild(checknode);
-        var element = document.getElementById("div1");
-        element.appendChild(para);
-        return para;
-    };
-    return app;
-})();
-var InputField = (function (_super) {
-    __extends(InputField, _super);
+var InputField = (function () {
     function InputField(name) {
-        _super.call(this);
         this.element = document.createElement('input');
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
         this.type = FieldType.textBox;
-        this.value = "";
     }
     InputField.prototype.render = function () {
-        return this.createInput(this.name);
+        return this.element;
     };
     InputField.prototype.getValue = function () {
         return this.element.value;
     };
     return InputField;
-})(app);
-var TextArea = (function (_super) {
-    __extends(TextArea, _super);
+})();
+var TextArea = (function () {
     function TextArea(name) {
-        _super.call(this);
-        this.element = document.createElement('input');
         this.name = name;
+        this.element = document.createElement('input');
         this.label = "etykieta";
         this.element.name = this.name;
         this.type = FieldType.textArea;
     }
     TextArea.prototype.render = function () {
-        return this.createInput(this.name);
+        return this.element;
     };
     TextArea.prototype.getValue = function () {
-        return this.element.value;
+        return this.element.name + ":" + " " + this.element.value;
     };
     return TextArea;
-})(app);
-var DateField = (function (_super) {
-    __extends(DateField, _super);
+})();
+var DateField = (function () {
     function DateField(name) {
-        _super.call(this);
         this.element = document.createElement('date');
         this.name = name;
         this.label = "etykieta";
@@ -86,17 +48,15 @@ var DateField = (function (_super) {
         this.type = FieldType.date;
     }
     DateField.prototype.render = function () {
-        return this.createInput(this.name);
+        return this.element;
     };
     DateField.prototype.getValue = function () {
         return this.element.value;
     };
     return DateField;
-})(app);
-var CheckField = (function (_super) {
-    __extends(CheckField, _super);
+})();
+var CheckField = (function () {
     function CheckField(name) {
-        _super.call(this);
         this.element = document.createElement('checkbox');
         this.name = name;
         this.label = "etykieta";
@@ -104,13 +64,13 @@ var CheckField = (function (_super) {
         this.type = FieldType.checkbox;
     }
     CheckField.prototype.render = function () {
-        return this.createCheckbox(this.name);
+        return this.element;
     };
     CheckField.prototype.getValue = function () {
-        return this.element.value;
+        return this.element.name + ":" + " " + this.element.value;
     };
     return CheckField;
-})(app);
+})();
 var Form = (function () {
     function Form(id) {
         this.fields = new Array();
@@ -118,19 +78,37 @@ var Form = (function () {
     }
     Form.prototype.getValue = function () {
         this.fields.forEach(function (element) {
-            element.getValue();
+            console.log(element.getValue());
         });
     };
     Form.prototype.render = function () {
-        var inputField = new InputField("Imie");
-        inputField.render();
-        var textArea = new TextArea("Nazwisko");
-        textArea.render();
-        var dataArea = new DateField("Data");
-        dataArea.render();
-        var checkArea = new CheckField("Kromka");
-        checkArea.render();
+        var _this = this;
+        this.fields.forEach(function (element) {
+            _this.formElement.appendChild(element.render());
+        });
+    };
+    Form.prototype.addNewField = function (field) {
+        this.fields.push(field);
     };
     return Form;
 })();
-var ap = new Form("1");
+var app = (function () {
+    function app(form) {
+        this.form = form;
+    }
+    app.prototype.createForm = function () {
+        this.form.render();
+    };
+    return app;
+})();
+var f = new Form("p1");
+f.addNewField(new TextArea("Imię"));
+f.addNewField(new TextArea("Nazwisko"));
+var a = new Form("p2");
+a.addNewField(new CheckField("Oznajmiam, ze jestem pełnoletni"));
+var ap = new app(f);
+var appp = new app(a);
+var showButton = document.getElementById("1");
+showButton.addEventListener('click', function () { return f.getValue(); }, false);
+ap.createForm();
+appp.createForm();
