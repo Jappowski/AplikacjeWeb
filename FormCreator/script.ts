@@ -148,7 +148,7 @@ class Form {
     render() {
           let inputField: InputField = new InputField("Imie");
           inputField.render();
-          this.fields.push(inputField);
+          
 
           let textArea: TextArea = new TextArea("Nazwisko");
           textArea.render();

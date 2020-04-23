@@ -124,7 +124,6 @@ var Form = (function () {
     Form.prototype.render = function () {
         var inputField = new InputField("Imie");
         inputField.render();
-        this.fields.push(inputField);
         var textArea = new TextArea("Nazwisko");
         textArea.render();
         var dataArea = new DateField("Data");
