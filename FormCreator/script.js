@@ -13,13 +13,13 @@ var InputField = (function () {
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
-        this.type = FieldType.textBox;
+        this.type = 1;
     }
     InputField.prototype.render = function () {
         return this.element;
     };
     InputField.prototype.getValue = function () {
-        return this.element.value;
+        return this.element.name + ":" + " " + this.element.value;
     };
     return InputField;
 })();
@@ -29,7 +29,7 @@ var TextArea = (function () {
         this.element = document.createElement('input');
         this.label = "etykieta";
         this.element.name = this.name;
-        this.type = FieldType.textArea;
+        this.type = 2;
     }
     TextArea.prototype.render = function () {
         return this.element;
@@ -41,27 +41,27 @@ var TextArea = (function () {
 })();
 var DateField = (function () {
     function DateField(name) {
-        this.element = document.createElement('date');
+        this.element = document.createElement('input');
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
-        this.type = FieldType.date;
+        this.type = 3;
     }
     DateField.prototype.render = function () {
         return this.element;
     };
     DateField.prototype.getValue = function () {
-        return this.element.value;
+        return this.element.name + ":" + " " + this.element.value;
     };
     return DateField;
 })();
 var CheckField = (function () {
     function CheckField(name) {
-        this.element = document.createElement('checkbox');
+        this.element = document.createElement('input');
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
-        this.type = FieldType.checkbox;
+        this.type = 6;
     }
     CheckField.prototype.render = function () {
         return this.element;
@@ -102,13 +102,11 @@ var app = (function () {
     return app;
 })();
 var f = new Form("p1");
-f.addNewField(new TextArea("Imię"));
-f.addNewField(new TextArea("Nazwisko"));
-var a = new Form("p2");
-a.addNewField(new CheckField("Oznajmiam, ze jestem pełnoletni"));
+f.addNewField(new InputField("Imię"));
+f.addNewField(new InputField("Nazwisko"));
+f.addNewField(new DateField("Data urodzenia"));
+f.addNewField(new CheckField("Oznajmiam, ze jestem pełnoletni"));
 var ap = new app(f);
-var appp = new app(a);
 var showButton = document.getElementById("1");
 showButton.addEventListener('click', function () { return f.getValue(); }, false);
 ap.createForm();
-appp.createForm();

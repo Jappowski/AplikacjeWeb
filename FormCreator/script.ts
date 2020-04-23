@@ -22,21 +22,19 @@ class InputField implements Field{
     label: string;
     type: FieldType;
     element: HTMLInputElement;
-    value: any;
     constructor(name: string){
         this.element = <HTMLInputElement>document.createElement('input');
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
-        this.type = FieldType.textBox;
+        this.type = 1;
       
     }
     render(): HTMLElement {
        return this.element;
     }
     getValue(): any{
-     return this.element.value
-        
+     return this.element.name + ":" + " " + this.element.value
     }
 }
 class TextArea implements Field{
@@ -44,14 +42,12 @@ class TextArea implements Field{
     label: string;
     type: FieldType;
     element: HTMLInputElement;
-    value: any;
     constructor(name: string){
         this.name = name;
         this.element =<HTMLInputElement>document.createElement('input');
-        
         this.label = "etykieta";
         this.element.name = this.name;
-        this.type = FieldType.textArea;
+        this.type = 2
     }
     render(): HTMLElement {
        return this.element
@@ -68,17 +64,17 @@ class DateField implements Field{
     
     constructor(name: string){
 
-        this.element = <HTMLInputElement>document.createElement('date');
+        this.element = <HTMLInputElement>document.createElement('input');
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
-        this.type = FieldType.date;
+        this.type = 3;
     }
     render():HTMLElement {
         return this.element
     }
     getValue(): any{
-        return this.element.value
+        return this.element.name + ":" + " " + this.element.value
     }
 }
 
@@ -90,11 +86,12 @@ class CheckField implements Field{
     
     constructor(name: string){
 
-        this.element =<HTMLInputElement>document.createElement('checkbox');
+        this.element = document.createElement('input');
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
-        this.type = FieldType.checkbox;
+        this.type = 6
+        
     }
     render():HTMLElement {
       return this.element;
@@ -143,11 +140,14 @@ class app{
         
 }
 let f = new Form("p1");
-f.addNewField(new TextArea("Imię"));
+f.addNewField(new InputField("Imię"));
+ 
+f.addNewField(new InputField("Nazwisko"));
 
-f.addNewField(new TextArea("Nazwisko"));
+f.addNewField(new DateField("Data urodzenia"))
 
 f.addNewField(new CheckField("Oznajmiam, ze jestem pełnoletni"));
+
 let ap = new app(f);
 
 let showButton = document.getElementById("1");
