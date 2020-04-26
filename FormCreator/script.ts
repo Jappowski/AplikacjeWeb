@@ -111,9 +111,7 @@ class CheckField implements Field{
         this.value = document.createTextNode(name)
         this.place.appendChild(this.value)
         this.element = document.createElement('input');
-        this.element.setAttribute("id", "checkbox")
-
-        this.element.value = "false"
+        
         this.place.appendChild(this.element);
         this.name = name;
         this.label = "etykieta";
@@ -128,12 +126,9 @@ class CheckField implements Field{
     }
     getValue(): any{
         
-        if (this.element.value = "true")
+        if (this.element.checked)
         {
         return this.element.name + ":" + " " + "tak"
-        }
-        else if (this.element.value = "false"){
-        return this.element.name + ":" + " " + "nie"
         }
         else return this.element.name + ":" + " " + "nie"
     }
