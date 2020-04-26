@@ -11,6 +11,7 @@ interface Field{
     name: string
     label: string
     type: FieldType;
+    value:any;
     render(): HTMLElement;
     getValue(): any;
 }
@@ -22,8 +23,14 @@ class InputField implements Field{
     label: string;
     type: FieldType;
     element: HTMLInputElement;
+    value:any;
+    place;
     constructor(name: string){
-        this.element = <HTMLInputElement>document.createElement('input');
+        this.place = document.createElement("div")
+        this.value = document.createTextNode(name)
+        this.place.appendChild(this.value)
+        this.element = document.createElement('input');
+        this.place.appendChild(this.element);
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
@@ -31,7 +38,7 @@ class InputField implements Field{
       
     }
     render(): HTMLElement {
-       return this.element;
+       return this.place;
     }
     getValue(): any{
      return this.element.name + ":" + " " + this.element.value
@@ -42,15 +49,22 @@ class TextArea implements Field{
     label: string;
     type: FieldType;
     element: HTMLInputElement;
+    value:any;
+    place;
     constructor(name: string){
         this.name = name;
-        this.element =<HTMLInputElement>document.createElement('input');
+        this.place = document.createElement("div")
+        this.value = document.createTextNode(name)
+        this.place.appendChild(this.value)
+        this.element = document.createElement('input');
+        this.place.appendChild(this.element);
         this.label = "etykieta";
         this.element.name = this.name;
         this.type = 2
+        this.element.type = 'text'
     }
     render(): HTMLElement {
-       return this.element
+       return this.place
     }
     getValue(): any{
         return this.element.name + ":" + " " + this.element.value
@@ -61,17 +75,23 @@ class DateField implements Field{
     label: string;
     type: FieldType;
     element: HTMLInputElement;
-    
+    value:any;
+    place;
     constructor(name: string){
 
-        this.element = <HTMLInputElement>document.createElement('input');
+        this.place = document.createElement("div")
+        this.value = document.createTextNode(name)
+        this.place.appendChild(this.value)
+        this.element = document.createElement('input');
+        this.place.appendChild(this.element);
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
         this.type = 3;
+        this.element.type="date"
     }
     render():HTMLElement {
-        return this.element
+        return this.place
     }
     getValue(): any{
         return this.element.name + ":" + " " + this.element.value
@@ -83,22 +103,39 @@ class CheckField implements Field{
     label: string;
     type: FieldType;
     element: HTMLInputElement;
+    value: any;
+    place: any;
     
     constructor(name: string){
-
+        this.place = document.createElement("div")
+        this.value = document.createTextNode(name)
+        this.place.appendChild(this.value)
         this.element = document.createElement('input');
+        this.element.setAttribute("id", "checkbox")
+
+        this.element.value = "false"
+        this.place.appendChild(this.element);
         this.name = name;
         this.label = "etykieta";
         this.element.name = this.name;
-        this.type = 6
+        this.type = FieldType.checkbox;
+        this.element.type = 'checkbox'
         
     }
     render():HTMLElement {
-      return this.element;
+      return this.place
       
     }
     getValue(): any{
-        return this.element.name + ":" + " " + this.element.value
+        
+        if (this.element.value = "true")
+        {
+        return this.element.name + ":" + " " + "tak"
+        }
+        else if (this.element.value = "false"){
+        return this.element.name + ":" + " " + "nie"
+        }
+        else return this.element.name + ":" + " " + "nie"
     }
 }
 
