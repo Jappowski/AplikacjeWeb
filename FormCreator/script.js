@@ -1,10 +1,10 @@
 var FieldType;
 (function (FieldType) {
     FieldType[FieldType["textBox"] = 1] = "textBox";
-    FieldType[FieldType["textArea"] = 2] = "textArea";
+    FieldType[FieldType["textarea"] = 2] = "textarea";
     FieldType[FieldType["date"] = 3] = "date";
     FieldType[FieldType["email"] = 4] = "email";
-    FieldType[FieldType["radio"] = 5] = "radio";
+    FieldType[FieldType["select"] = 5] = "select";
     FieldType[FieldType["checkbox"] = 6] = "checkbox";
 })(FieldType || (FieldType = {}));
 var InputField = (function () {
@@ -15,7 +15,6 @@ var InputField = (function () {
         this.element = document.createElement('input');
         this.place.appendChild(this.element);
         this.name = name;
-        this.label = "etykieta";
         this.element.name = this.name;
         this.type = 1;
     }
@@ -33,12 +32,13 @@ var TextArea = (function () {
         this.place = document.createElement("div");
         this.value = document.createTextNode(name);
         this.place.appendChild(this.value);
-        this.element = document.createElement('input');
+        this.element = document.createElement('textarea');
         this.place.appendChild(this.element);
-        this.label = "etykieta";
         this.element.name = this.name;
+        this.element.type == "textarea";
         this.type = 2;
-        this.element.type = 'text';
+        this.element.rows = 3;
+        this.element.cols = 20;
     }
     TextArea.prototype.render = function () {
         return this.place;
@@ -56,7 +56,6 @@ var DateField = (function () {
         this.element = document.createElement('input');
         this.place.appendChild(this.element);
         this.name = name;
-        this.label = "etykieta";
         this.element.name = this.name;
         this.type = 3;
         this.element.type = "date";
@@ -77,7 +76,6 @@ var CheckField = (function () {
         this.element = document.createElement('input');
         this.place.appendChild(this.element);
         this.name = name;
-        this.label = "etykieta";
         this.element.name = this.name;
         this.type = FieldType.checkbox;
         this.element.type = 'checkbox';
@@ -93,6 +91,33 @@ var CheckField = (function () {
             return this.element.name + ":" + " " + "nie";
     };
     return CheckField;
+})();
+var SelectField = (function () {
+    function SelectField(name) {
+        this.place = document.createElement("div");
+        this.value = document.createTextNode(name);
+        this.place.appendChild(this.value);
+        this.element = document.createElement('select');
+        this.place.appendChild(this.element);
+        this.v = document.createElement("option");
+        this.v.appendChild(document.createTextNode("Kobieta"));
+        this.v.value = "kobieta";
+        this.v2 = document.createElement("option");
+        this.v2.appendChild(document.createTextNode("Mężczyzna"));
+        this.element.appendChild(this.v);
+        this.element.appendChild(this.v2);
+        this.v.value = "Kobieta";
+        this.v2.value = "Mężczyzna";
+        this.name = name;
+        this.type = FieldType.select;
+    }
+    SelectField.prototype.render = function () {
+        return this.place;
+    };
+    SelectField.prototype.getValue = function () {
+        return this.element + ":" + " " + this.element.value;
+    };
+    return SelectField;
 })();
 var Form = (function () {
     function Form(id) {
@@ -129,6 +154,8 @@ f.addNewField(new InputField("Imię"));
 f.addNewField(new InputField("Nazwisko"));
 f.addNewField(new DateField("Data urodzenia"));
 f.addNewField(new CheckField("Oznajmiam, ze jestem pełnoletni"));
+f.addNewField(new SelectField("Wybór "));
+f.addNewField(new TextArea("Uwagi "));
 var ap = new app(f);
 var showButton = document.getElementById("1");
 showButton.addEventListener('click', function () { return f.getValue(); }, false);

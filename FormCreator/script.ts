@@ -1,15 +1,15 @@
 enum FieldType {
     textBox = 1,
-    textArea = 2,
+    textarea = 2,
     date = 3,
     email = 4,
-    radio = 5,
+    select = 5,
     checkbox = 6,
 }
 
 interface Field{
     name: string
-    label: string
+    label: HTMLLabelElement
     type: FieldType;
     value:any;
     render(): HTMLElement;
@@ -20,7 +20,7 @@ interface Field{
 
 class InputField implements Field{
     name: string;
-    label: string;
+    label: HTMLLabelElement;
     type: FieldType;
     element: HTMLInputElement;
     value:any;
@@ -32,7 +32,6 @@ class InputField implements Field{
         this.element = document.createElement('input');
         this.place.appendChild(this.element);
         this.name = name;
-        this.label = "etykieta";
         this.element.name = this.name;
         this.type = 1;
       
@@ -46,22 +45,24 @@ class InputField implements Field{
 }
 class TextArea implements Field{
     name: string;
-    label: string;
     type: FieldType;
-    element: HTMLInputElement;
+    element: HTMLTextAreaElement;
     value:any;
+    label;
     place;
     constructor(name: string){
         this.name = name;
         this.place = document.createElement("div")
         this.value = document.createTextNode(name)
         this.place.appendChild(this.value)
-        this.element = document.createElement('input');
+        this.element = <HTMLTextAreaElement> document.createElement('textarea');
         this.place.appendChild(this.element);
-        this.label = "etykieta";
         this.element.name = this.name;
+        this.element.type == "textarea"
         this.type = 2
-        this.element.type = 'text'
+        
+        this.element.rows = 3
+        this.element.cols = 20
     }
     render(): HTMLElement {
        return this.place
@@ -72,10 +73,10 @@ class TextArea implements Field{
 }
 class DateField implements Field{
     name: string;
-    label: string;
     type: FieldType;
     element: HTMLInputElement;
     value:any;
+    label;
     place;
     constructor(name: string){
 
@@ -85,7 +86,6 @@ class DateField implements Field{
         this.element = document.createElement('input');
         this.place.appendChild(this.element);
         this.name = name;
-        this.label = "etykieta";
         this.element.name = this.name;
         this.type = 3;
         this.element.type="date"
@@ -100,11 +100,11 @@ class DateField implements Field{
 
 class CheckField implements Field{
     name: string;
-    label: string;
     type: FieldType;
     element: HTMLInputElement;
     value: any;
     place: any;
+    label;
     
     constructor(name: string){
         this.place = document.createElement("div")
@@ -114,7 +114,6 @@ class CheckField implements Field{
         
         this.place.appendChild(this.element);
         this.name = name;
-        this.label = "etykieta";
         this.element.name = this.name;
         this.type = FieldType.checkbox;
         this.element.type = 'checkbox'
@@ -131,6 +130,50 @@ class CheckField implements Field{
         return this.element.name + ":" + " " + "tak"
         }
         else return this.element.name + ":" + " " + "nie"
+    }
+}
+class SelectField implements Field{
+    name: string;
+    label: HTMLLabelElement;
+    type: FieldType;
+    element: HTMLSelectElement;
+    value:any;
+    v:any;
+    v2:any;
+    place;
+    constructor(name: string){
+    
+        this.place = document.createElement("div")
+        this.value = document.createTextNode(name)
+        this.place.appendChild(this.value)
+
+        this.element = document.createElement('select');
+        this.place.appendChild(this.element);
+
+        this.v = document.createElement("option")
+        this.v.appendChild(document.createTextNode("Kobieta"))
+        this.v.value = "kobieta"
+
+        this.v2 = document.createElement("option")
+        this.v2.appendChild(document.createTextNode("Mężczyzna"))
+
+        this.element.appendChild(this.v)
+        this.element.appendChild(this.v2)
+        this.v.value="Kobieta";
+        this.v2.value="Mężczyzna";
+        
+
+
+        this.name = name;
+  
+        this.type = FieldType.select;
+      
+    }
+    render():HTMLElement {
+        return this.place
+    }
+    getValue(): any{
+        return this.element + ":" + " " + this.element.value
     }
 }
 
@@ -180,6 +223,9 @@ f.addNewField(new DateField("Data urodzenia"))
 
 f.addNewField(new CheckField("Oznajmiam, ze jestem pełnoletni"));
 
+f.addNewField(new SelectField("Wybór "));
+
+f.addNewField(new TextArea("Uwagi "));
 let ap = new app(f);
 
 let showButton = document.getElementById("1");
