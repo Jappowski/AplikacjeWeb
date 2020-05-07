@@ -30,7 +30,6 @@ export class InputField implements Field{
        return this.table() && this.place;
     }
     getValue(): any{
-        
         this.addToLocal()
         return this.addToTable()
             
@@ -76,11 +75,11 @@ export class InputField implements Field{
         let itemsArray = localStorage.getItem('items') ? 
             JSON.parse(localStorage.getItem('items')) : []
         
-        localStorage.setItem('items', JSON.stringify(this.element))
+        localStorage.setItem('items', JSON.stringify(itemsArray))
        
 
         itemsArray.push(this.element.value)
-        localStorage.setItem('items', JSON.stringify(this.element))
+        localStorage.setItem('items', JSON.stringify(itemsArray))
         
     }
     
