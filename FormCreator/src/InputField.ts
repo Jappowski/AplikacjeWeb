@@ -31,6 +31,7 @@ export class InputField implements Field{
     }
     getValue(): any{
         
+        this.addToLocal()
         return this.addToTable()
             
     }
@@ -48,14 +49,10 @@ export class InputField implements Field{
         
         th.innerHTML = this.element.name
 
+        
+        this.readFromLocal()
+        
         return table
-        //tworzenie rowsow z inputa
-        
-        
-        
-
-        
-        
     }
     addToTable(){
       
@@ -63,11 +60,48 @@ export class InputField implements Field{
         var th = document.getElementById("th")
         var tr = document.createElement("tr")
         var td = document.createElement("td")
+        var button = document.createElement('button')
+        button.setAttribute('id', 'delete')
         table.appendChild(th)
         th.appendChild(tr)
         tr.appendChild(td)
+        td.appendChild(button)
        
-        
         td.innerHTML = this.element.value
+        
+        
     }
+    
+    addToLocal(){
+        let itemsArray = localStorage.getItem('items') ? 
+            JSON.parse(localStorage.getItem('items')) : []
+        
+        localStorage.setItem('items', JSON.stringify(this.element))
+       
+
+        itemsArray.push(this.element.value)
+        localStorage.setItem('items', JSON.stringify(this.element))
+        
+    }
+    
+    readFromLocal(){
+        let items
+
+        if (localStorage.getItem('items')) {
+            items = JSON.parse(localStorage.getItem('items'))
+            items.forEach(items => {
+                var table = document.getElementById('table')
+                var th = document.createElement("th")
+                var tr = document.createElement("tr")
+                var td = document.createElement("td")
+                table.appendChild(th)
+                th.appendChild(tr)
+                tr.appendChild(td)
+                td.innerHTML = items
+            })
+        } else {
+            items = []
+        }
+    }
+  
 }

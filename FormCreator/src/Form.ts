@@ -34,8 +34,7 @@ export class Form {
         
     }
     
-    tableCreate(){
-        
-       
+    resetLocal(){
+        localStorage.clear();
     }
 }

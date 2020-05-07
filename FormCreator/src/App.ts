@@ -22,6 +22,8 @@ export class app{
 }
 
 
+
+
 let f = new Form("p1");
 f.addNewField(new InputField("Imię: "));
  
@@ -38,4 +40,7 @@ let ap = new app(f);
 
 let showButton = document.getElementById("1");
 showButton.addEventListener('click',() => f.getValue(), false);
+let resetButton = document.getElementById("2");
+resetButton.addEventListener('click',() => f.resetLocal(), false);
+
 ap.createForm();
