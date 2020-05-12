@@ -33,7 +33,7 @@ export class TextArea implements Field{
         return this.table() && this.place;
      }
      getValue(): any{
-         this.addToLocal()
+       
          return this.addToTable()
              
      }

@@ -25,7 +25,7 @@ export class DateField implements Field{
         return this.table() && this.place;
      }
      getValue(): any{
-         this.addToLocal()
+        
          return this.addToTable()
              
      }

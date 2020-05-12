@@ -28,7 +28,7 @@ export class CheckField implements Field{
     }
 
      getValue(): any{
-         this.addToLocal()
+         
          return this.addToTable()
              
      }

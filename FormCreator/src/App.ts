@@ -29,6 +29,7 @@ f.addNewField(new InputField("Imię: "));
  
 f.addNewField(new InputField("Nazwisko: "));
 
+
 f.addNewField(new DateField("Data urodzenia: "))
 
 f.addNewField(new CheckField("Oznajmiam, ze jestem pełnoletni"));

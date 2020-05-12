@@ -1,5 +1,6 @@
 import { Field } from './Field';
 import { FieldType } from './FieldType';
+import {Form} from "./Form";
 
 export class InputField implements Field{
     name: string;
@@ -72,23 +73,39 @@ export class InputField implements Field{
     }
     
     addToLocal(){
-        let itemsArray = localStorage.getItem('items') ? 
-            JSON.parse(localStorage.getItem('items')) : []
+        // let itemsArray = localStorage.getItem('items') ? 
+        //     JSON.parse(localStorage.getItem('items')) : []
+        // localStorage.setItem('items', JSON.stringify(present))
+        //
+        //
+        // itemsArray.push(this.element.value)
+        // localStorage.setItem('items', JSON.stringify(present))
+        // 
+        let itemsArray = localStorage.getItem(this.element.name) ?
+            JSON.parse(localStorage.getItem(this.element.name)) : []
         
-        localStorage.setItem('items', JSON.stringify(itemsArray))
-       
-
         itemsArray.push(this.element.value)
-        localStorage.setItem('items', JSON.stringify(itemsArray))
+        localStorage.setItem(this.element.name, JSON.stringify(itemsArray))
         
+        
+        let formArray = [itemsArray]
+        
+        localStorage.setItem('item2', JSON.stringify(formArray))
+
+        // //
+        let present = [formArray]
+        
+       
+        localStorage.setItem('item3', JSON.stringify(present))
+        // // 
     }
     
     readFromLocal(){
         let items
 
-        if (localStorage.getItem('items')) {
-            items = JSON.parse(localStorage.getItem('items'))
-            items.forEach(items => {
+        if (localStorage.getItem('item3')) {
+            items = JSON.parse(localStorage.getItem('item3'))
+            items.forEach(item => {
                 var table = document.getElementById('table')
                 var th = document.createElement("th")
                 var tr = document.createElement("tr")
@@ -96,7 +113,7 @@ export class InputField implements Field{
                 table.appendChild(th)
                 th.appendChild(tr)
                 tr.appendChild(td)
-                td.innerHTML = items
+                td.innerHTML = item
             })
         } else {
             items = []
