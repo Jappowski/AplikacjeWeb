@@ -73,31 +73,15 @@ export class InputField implements Field{
     }
     
     addToLocal(){
-        // let itemsArray = localStorage.getItem('items') ? 
-        //     JSON.parse(localStorage.getItem('items')) : []
-        // localStorage.setItem('items', JSON.stringify(present))
-        //
-        //
-        // itemsArray.push(this.element.value)
-        // localStorage.setItem('items', JSON.stringify(present))
-        // 
-        let itemsArray = localStorage.getItem(this.element.name) ?
-            JSON.parse(localStorage.getItem(this.element.name)) : []
-        
-        itemsArray.push(this.element.value)
-        localStorage.setItem(this.element.name, JSON.stringify(itemsArray))
-        
-        
-        let formArray = [itemsArray]
-        
-        localStorage.setItem('item2', JSON.stringify(formArray))
+        let itemsArray = localStorage.getItem('items') ? 
+            JSON.parse(localStorage.getItem('items')) : []
+        localStorage.setItem('items', JSON.stringify(itemsArray))
 
-        // //
-        let present = [formArray]
-        
+
+        itemsArray.push(this.element.value)
+        localStorage.setItem('items', JSON.stringify(itemsArray))
+
        
-        localStorage.setItem('item3', JSON.stringify(present))
-        // // 
     }
     
     readFromLocal(){
