@@ -1,11 +1,12 @@
-
+import { Form } from './Form';
 export class results{
-    name:string;
-    value:string;
+    form:Form;
+    name:any;
+    value:any;
+    
     constructor(name, value) {
-        this.name = name;
-        this.value = value;
-        
+        this.name = [name];
+        this.value = [value];
         
     }
     

@@ -6,6 +6,6 @@ socket.onopen = function(e) {
 socket.onmessage = function(event) {
     alert('Message received: ' + event.data);
 };
-document.getElementById('3').addEventListener('click', () => {
-    socket.send('new message')
+document.getElementById('send').addEventListener('click', () => {
+    socket.send( JSON.stringify(localStorage))
 })

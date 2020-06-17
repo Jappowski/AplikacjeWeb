@@ -5,6 +5,8 @@ import { DateField } from './DataField';
 import { CheckField } from './CheckField';
 import { SelectField } from './SelectField';
 import { TextArea } from './TextArea';
+import { DynamicSelect } from './DynamicSelect'
+import './styles/body.scss';
 
 
 export class app{
@@ -25,6 +27,7 @@ export class app{
 
 
 let f = new Form("p1");
+
 f.addNewField(new InputField("Imię: "));
  
 f.addNewField(new InputField("Nazwisko: "));
@@ -34,7 +37,9 @@ f.addNewField(new DateField("Data urodzenia: "))
 
 f.addNewField(new CheckField("Oznajmiam, ze jestem pełnoletni"));
 
-f.addNewField(new SelectField("Płeć: ", ["męzczyzna","kobieta"]));
+f.addNewField(new SelectField("Płeć: ", ["męzczyzna","kobieta"],));
+f.addNewField(new DynamicSelect("kraje", [], 'https://restcountries.eu/rest/v2/all'))
+
 
 f.addNewField(new TextArea("Uwagi "));
 let ap = new app(f);

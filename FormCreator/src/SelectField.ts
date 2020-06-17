@@ -11,6 +11,7 @@ export class SelectField implements Field{
     v2:any;
     place;
     options;
+   
     constructor(name: string, options:string[]){
     
         this.place = document.createElement("div")
@@ -23,14 +24,14 @@ export class SelectField implements Field{
         
         options.forEach(options =>
         {
+            this.options = options
         this.v = document.createElement("option")
         this.v.appendChild(document.createTextNode(options))
-
-      
-        this.element.appendChild(this.v)
+            this.v.setAttribute('value', this.options)
+            this.element.appendChild(this.v)
+            
         })
-
-
+        
         this.name = name;
   
         this.type = FieldType.select;
@@ -41,8 +42,9 @@ export class SelectField implements Field{
         return this.table() && this.place;
      }
      getValue(): any{
-        
-         return this.addToTable()
+
+         this.addToLocal()
+          this.addToTable()
              
      }
      
@@ -61,8 +63,8 @@ export class SelectField implements Field{
 
          let items
 
-         if (localStorage.getItem('items')) {
-             items = JSON.parse(localStorage.getItem('items'))
+         if (localStorage.getItem('plec')) {
+             items = JSON.parse(localStorage.getItem('plec'))
              items.forEach(items => {
                  var th = document.createElement("th")
                  var tr = document.createElement("tr")
@@ -97,15 +99,14 @@ export class SelectField implements Field{
          
          td.innerHTML = this.element.value
      }
+     
     addToLocal(){
-        let itemsArray = localStorage.getItem('items') ?
-            JSON.parse(localStorage.getItem('items')) : []
-
-        localStorage.setItem('items', JSON.stringify(itemsArray))
-
-
+        let itemsArray = localStorage.getItem('plec') ?
+            JSON.parse(localStorage.getItem('plec')) : []
+        
         itemsArray.push(this.element.value)
-        localStorage.setItem('items', JSON.stringify(itemsArray))
+        localStorage.setItem('plec', JSON.stringify(itemsArray))
+        
 
     }
 }

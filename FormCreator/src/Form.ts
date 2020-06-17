@@ -11,16 +11,6 @@ export class Form {
        this.fields.forEach(element => {
             element.getValue()
               
-            /*  var table = document.getElementById('table')
-              var tr = document.createElement("tr")
-              var td = document.createElement("td")
-              tr.setAttribute("id", "trr")
-              td.innerHTML = element.getValue()
-
-              table.appendChild(tr)
-              tr.appendChild(td)
-       */
-              
         });
        
     }

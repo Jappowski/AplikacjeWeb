@@ -25,9 +25,9 @@ export class DateField implements Field{
         return this.table() && this.place;
      }
      getValue(): any{
-        
+
+         this.addToLocal()
          return this.addToTable()
-             
      }
      
  
@@ -45,8 +45,8 @@ export class DateField implements Field{
 
          let items
 
-         if (localStorage.getItem('items')) {
-             items = JSON.parse(localStorage.getItem('items'))
+         if (localStorage.getItem(this.element.name)) {
+             items = JSON.parse(localStorage.getItem(this.element.name))
              items.forEach(items => {
                  var th = document.createElement("th")
                  var tr = document.createElement("tr")
@@ -81,14 +81,13 @@ export class DateField implements Field{
          td.innerHTML = this.element.value
      }
     addToLocal(){
-        let itemsArray = localStorage.getItem('items') ?
-            JSON.parse(localStorage.getItem('items')) : []
+        let itemsArray = localStorage.getItem(this.element.name) ?
+            JSON.parse(localStorage.getItem(this.element.name)) : []
 
-        localStorage.setItem('items', JSON.stringify(itemsArray))
 
 
         itemsArray.push(this.element.value)
-        localStorage.setItem('items', JSON.stringify(itemsArray))
+        localStorage.setItem(this.element.name, JSON.stringify(itemsArray))
 
     }
 }
